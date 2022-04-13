@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <!-- <link rel="icon" href="favicon.svg" type="image/svg+xml"> -->
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#000000" />
+  <meta name="description" content="BDC Academy: Visualizing data with D3.js" />
+  <title>BDC Academy: Visualizing data with D3.js</title>
+
+  <link rel="stylesheet" type="text/css" href="style.css" />
+  <script defer src="js/index.js"></script>
+</head>
+
+<body>
+  <noscript>You need to enable JavaScript to run this app.</noscript>
+  <div id="root">
+    <svg class="my-graphic" width="600" height="400">
+      <!-- TIP: Close this file now, if you haven't done the assigments yet ;) -->
+
+      <!--
+      The current situation:
+      - Our svg element has a width of 600 and a height of 400
+      - Our whole chart should take up all of the width and height, 
+        so you draw the y-axis all the way to the left (x = 0) and
+        the x-axis all the way at the the bottom (y = 0)
+      - The ticks must be readable of course, which can be achieved by adding a left and bottom margin to the whole chart
+      
+      So when we take up all the available space for our chart:
+      - The 'height' of the chart is svg.height - margin.bottom (and also - margin.top) 
+      - The 'width' of the chart is svg.width - margin.left (and also - margin.right) 
+      
+      Because svg draws coordinatesystem starts 0,0 at the top left, you can only use the left and top margin to transform to margin container.
+      The right and bottom margin are implemented by substracting them from the width and height available to the chart.
+  
+       Below chart has the following margins: left 100, top 20, bottom 50, right 20. Top and right are 20 to make sure all tekst and elements are fully visible.
+       which makes the available space for the chart:
+       chartHeight = 400 - 20 - 50 = 330
+       chartWidth = 600 - 100 - 20 = 480
+      -->
+      <!-- margin container left = 100, top = 20  -->
+      <g id="margin-container" transform="translate(100, 20)">
+        <!-- Outer g element for y axis. No transform needed because margin are controlled by the margin container. -->
+        <g>
+          <!-- y2 = chartHeight = 330 -->
+          <line y1="0" y2="330" stroke="#000000" stroke-width="2" />
+          <!-- Inner g element translate x is only to make a bit more room between ticks and line -->
+          <g transform="translate(-10, 0)" text-anchor="end">
+            <!-- 
+              The top text element is always at y 0, 
+              the rest of the elements get spread over the chartHeight.
+              formula: text y = chartHeight / ( number of text elements - 1 ) * text element index 
+          -->
+            <!-- y is always 0 -->
+            <text y="0">100%</text>
+            <!-- y is 330 / 5 * 1 = 66 -->
+            <text y="66">80%</text>
+            <!-- y is 330 / 5 * 2 = 132 -->
+            <text y="132">60%</text>
+            <!-- y is 330 / 5 * 3 = 198 -->
+            <text y="198">40%</text>
+            <!-- y is 330 / 5 * 4 = 264 -->
+            <text y="264">20%</text>
+            <!-- y is 330 / 5 * 5 = 330 (will always be chartHeight) -->
+            <text y="330">0%</text>
+          </g>
+        </g>
+
+        <!-- Outer g element for x axis. x is controlled by margin container, y = chartHeight -->
+        <g transform="translate(0, 330)">
+          <!-- x2 = chartWidth, y is controlled by outer g element -->
+          <line x1="0" x2="480" stroke="#000000" stroke-width="2" stroke-linecap="round" />
+          <!-- 
+            Because we want our tick to appear in the middle underneath the bar, we transform x to chartWidth / number of elements / 2.
+            The y transform is only to get a bit of room between ticks and line.
+            The text anchor sets the x position in the middle of the text and really centers the ticks underneath the bar. -->
+          <g transform="translate(20, 20)" text-anchor="middle">
+            <!-- 
+              The tick elements get spread over the chartWidth. So chartWidth / number of text elements. 
+              formula: text x = chartWidth / number of text elements * element index
+          -->
+            <!-- x is always 0 -->
+            <text x="0">jan</text>
+            <!-- x is 480 / 11 * 1 -->
+            <text x="40">feb</text>
+            <!-- x is ... -->
+            <text x="80">ma</text>
+            <text x="120">apr</text>
+            <text x="160">mei</text>
+            <text x="200">jun</text>
+            <text x="240">jul</text>
+            <text x="280">aug</text>
+            <text x="320">sep</text>
+            <text x="360">okt</text>
+            <text x="400">nov</text>
+            <text x="440">dec</text>
+          </g>
+        </g>
+
+        <!-- Outer g element for bars. No translate needed, margins are controlled by container and bars draw from top to bottom -->
+        <g transform="translate(0, 0)">
+          <!-- Because our first bar is positioned at x = 0, we need to transform x our padding value (outer padding)  -->
+          <g transform="translate(2, 0)">
+            <!-- 
+              The height of each rect is calculated with the data value which we don't have right now
+              height = chartHeight / max y value * data value
+
+              The width of the rect is calculated by dividing the available space by the number of bars - padding between the bars.
+              chartWidth / number of bars - padding between bars = 480 / 12 - 2 = 38
+              
+              The x of the rect is calculated by dividing the chartWidth by the number of rects.
+              x = chartWidth / number of rects * index of rect
+
+              The y of the rect is calculated by substracting the height of the chart with the height of the bar.
+              y = chartHeight - barHeight
+             -->
+            <rect x="0" y="130" width="38" height="200" fill="#294899" />
+            <rect x="40" y="230" width="38" height="100" fill="#294899" />
+            <rect x="80" y="80" width="38" height="250" fill="#294899" />
+            <rect x="120" y="130" width="38" height="200" fill="#294899" />
+            <rect x="160" y="130" width="38" height="200" fill="#294899" />
+            <rect x="200" y="130" width="38" height="200" fill="#294899" />
+            <rect x="240" y="130" width="38" height="200" fill="#294899" />
+            <rect x="280" y="130" width="38" height="200" fill="#294899" />
+            <rect x="320" y="130" width="38" height="200" fill="#294899" />
+            <rect x="360" y="130" width="38" height="200" fill="#294899" />
+            <rect x="400" y="130" width="38" height="200" fill="#294899" />
+            <rect x="440" y="130" width="38" height="200" fill="#294899" />
+          </g>
+        </g>
+      </g>
+    </svg>
+  </div>
+</body>
+
+</html>
