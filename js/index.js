@@ -86,18 +86,19 @@ function createColumns(data) {
   const max = Math.max(...data.map(({ percentage }) => percentage));
   const innerPadding = 2;
 
-  // TODO: 2.10 Calculate how many pixels should be between rect elements 
-  // and what the width of a bar should be 
+  // TODO: 2.10 Calculate how many pixels should be between ticks
+  // and what the width of a rect should be 
   // const spaceBetweenTicks 
   // const columnWidth 
 
   const getX = (rectIndex) => spaceBetweenTicks * rectIndex;
 
-  // TODO: 2.11 Create an anonymous function getY that receives the height of a rect
+  // TODO: 2.11 Create a function getY that receives the height of a rect
   // and returns the corresponding y coordinate of a rect
+  // Note: the y=0 is at the top of the svg, which makes y=chartHeight the bottom of the svg
   // const getY = ..
 
-  // TODO: 2.12 Create an anonymous function getHeight that receives a value from the data
+  // TODO: 2.12 Create a function getHeight that receives a value from the data
   // and returns the height that the rect should be
   // Note: you will need chartHeight and max
   // const getHeight = 
@@ -109,7 +110,7 @@ function createColumns(data) {
 
   // TODO: 2.14 Create a rect element, using the createRect function, 
   // for each item in the data array and append the rect to the innerG.
-  // Note: you need percentage, spaceBetweenTicks, columnWidth and the anonymous getter functions.
+  // Note: you need percentage, spaceBetweenTicks, columnWidth and the getter functions.
 
 }
 
